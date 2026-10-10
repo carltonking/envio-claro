@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 300" role="img" aria-label="Envío Claro">
+  <g transform="translate(10,22) scale(0.5)">
+    <rect width="512" height="512" rx="112" fill="#0B6E4F"/>
+    <path d="M136 128h240a48 48 0 0 1 48 48v136a48 48 0 0 1-48 48H232l-72 56v-56h-24a48 48 0 0 1-48-48V176a48 48 0 0 1 48-48z" fill="#FFFFFF"/>
+    <path d="M176 290 L300 186" stroke="#E0A800" stroke-width="34" stroke-linecap="round" fill="none"/>
+    <path d="M236 180 H310 V254" stroke="#E0A800" stroke-width="34" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <text x="310" y="188" font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="128" font-weight="800" letter-spacing="-3" fill="#14201B">Envío <tspan fill="#0B6E4F">Claro</tspan></text>
+</svg>
