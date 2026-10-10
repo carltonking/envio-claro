@@ -32,7 +32,7 @@ if (!sandbox) {
 // Snapshot today's reference rates from here (the sandbox can't reach the FX API).
 const fx = await fetch("https://open.er-api.com/v6/latest/USD").then((r) => r.json());
 if (fx.result !== "success") throw new Error("FX snapshot failed");
-writeFileSync(join(ROOT, "server/data/rates.json"), JSON.stringify({ time_last_update_utc: fx.time_last_update_utc, rates: Object.fromEntries(["MXN", "GTQ", "HNL", "DOP"].map((c) => [c, fx.rates[c]])) }, null, 1));
+writeFileSync(join(ROOT, "server/data/rates.json"), JSON.stringify({ time_last_update_utc: fx.time_last_update_utc, rates: Object.fromEntries(["MXN", "GTQ", "HNL", "DOP", "COP"].map((c) => [c, fx.rates[c]])) }, null, 1));
 console.log("fx snapshot", fx.time_last_update_utc);
 
 const files = ["package.json", ...["server", "server/data", "test"].flatMap((d) => readdirSync(join(ROOT, d), { withFileTypes: true }).filter((f) => f.isFile()).map((f) => `${d}/${f.name}`))];

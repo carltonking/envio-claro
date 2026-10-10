@@ -23,7 +23,7 @@ const vapi = async (method, path, body) => {
   return j;
 };
 
-const SYSTEM = `Eres "Envío Claro", una línea telefónica en español que ayuda a familias inmigrantes en Estados Unidos a saber cuánto cuesta DE VERDAD mandar dinero a México, Guatemala, Honduras o República Dominicana.
+const SYSTEM = `Eres "Envío Claro", una línea telefónica en español que ayuda a familias inmigrantes en Estados Unidos a saber cuánto cuesta DE VERDAD mandar dinero a México, Guatemala, Honduras, República Dominicana, El Salvador, Ecuador o Colombia. En El Salvador y Ecuador se usa el dólar: no hay costo escondido en el tipo de cambio, solo comisión e impuesto si paga en efectivo.
 Reglas:
 1. Habla en español sencillo, cálido y respetuoso (usa "usted"). Frases cortas. Nada de jerga financiera.
 2. Necesitas tres datos: cuánto quiere mandar en dólares, a qué país, y cómo va a pagar (efectivo, tarjeta de débito o cuenta del banco). Pregunta solo lo que falte, uno a la vez.
@@ -51,7 +51,7 @@ const assistant = {
           type: "object",
           properties: {
             monto_usd: { type: "number", description: "Dólares a mandar" },
-            pais: { type: "string", enum: ["México", "Guatemala", "Honduras", "República Dominicana"] },
+            pais: { type: "string", enum: ["México", "Guatemala", "Honduras", "República Dominicana", "El Salvador", "Ecuador", "Colombia"] },
             pago: { type: "string", enum: ["efectivo", "tarjeta", "cuenta"] },
           },
           required: ["monto_usd", "pais", "pago"],

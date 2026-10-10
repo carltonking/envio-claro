@@ -76,6 +76,20 @@ test("Spanish summary uses only computed numbers and mentions tax + alerts", () 
   assert.match(s, new RegExp(q.cheapest));
 });
 
+test("dollarized corridors have no hidden FX cost; family receives exactly the amount", () => {
+  for (const cur of ["USD-EC", "USD-SV"]) {
+    const q = computeQuotes({ amount: 300, midRate: 1, pay: "efectivo", providers: providers.filter((p) => p.currency === cur) });
+    assert.ok(q.rows.every((r) => r.hidden_usd === 0 && r.received_local === 300));
+    assert.equal(q.rows[0].total_cost_usd, q.rows[0].fee_usd + 3);
+  }
+});
+
+test("Colombia: zero-fee Xoom is a fee trap at $300", () => {
+  const q = computeQuotes({ amount: 300, midRate: 3236.57, pay: "cuenta", providers: providers.filter((p) => p.currency === "COP") });
+  assert.equal(q.lowest_fee_provider, "Xoom (PayPal)");
+  assert.equal(q.fee_trap, true);
+});
+
 test("rejects bad input", () => {
   assert.throws(() => computeQuotes({ amount: 0, midRate: 18, pay: "tarjeta", providers: golden }));
   assert.throws(() => computeQuotes({ amount: 100, midRate: 18, pay: "bitcoin", providers: golden }));

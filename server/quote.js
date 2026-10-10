@@ -72,7 +72,7 @@ export function computeQuotes({ amount, midRate, pay, providers }) {
 
 const fmtUsd = (x) => `${x.toFixed(2)} dólares`;
 const fmtLocal = (x, cur) => `${Math.round(x).toLocaleString("en-US")} ${CURRENCY_NAMES_ES[cur] ?? cur}`;
-export const CURRENCY_NAMES_ES = { MXN: "pesos mexicanos", GTQ: "quetzales", HNL: "lempiras", DOP: "pesos dominicanos" };
+export const CURRENCY_NAMES_ES = { MXN: "pesos mexicanos", GTQ: "quetzales", HNL: "lempiras", DOP: "pesos dominicanos", COP: "pesos colombianos", "USD-EC": "dólares", "USD-SV": "dólares" };
 
 /** Deterministic Spanish summary — used by the phone line, SMS and as the LLM fallback. */
 export function summaryEs(q, corridor) {

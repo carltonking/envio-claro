@@ -30,5 +30,29 @@
   "fallback_mid_rate": 60.52,
   "alert_es": "",
   "active": true
+ },
+ {
+  "country_es": "Colombia",
+  "currency": "COP",
+  "flag": "🇨🇴",
+  "fallback_mid_rate": 3236.57,
+  "alert_es": "",
+  "active": true
+ },
+ {
+  "country_es": "Ecuador",
+  "currency": "USD-EC",
+  "flag": "🇪🇨",
+  "fallback_mid_rate": 1,
+  "alert_es": "Ecuador usa dólares: no hay costo escondido en el tipo de cambio. Lo que cuenta es la comisión, y el 1% de impuesto si pagas en efectivo.",
+  "active": true
+ },
+ {
+  "country_es": "El Salvador",
+  "currency": "USD-SV",
+  "flag": "🇸🇻",
+  "fallback_mid_rate": 1,
+  "alert_es": "El Salvador usa dólares: no hay costo escondido en el tipo de cambio. Lo que cuenta es la comisión, y el 1% de impuesto si pagas en efectivo.",
+  "active": true
  }
 ]

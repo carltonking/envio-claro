@@ -64,6 +64,8 @@ function snapshotRate(currency) {
 }
 async function midRate(currency) {
   const corridor = CORRIDORS.find((c) => c.currency === currency);
+  // Dollarized corridors (Ecuador, El Salvador): no currency conversion, so no FX markup.
+  if (currency.startsWith("USD")) return { rate: 1, updated: new Date().toUTCString(), source: "dólar estadounidense (sin cambio de moneda)", approx: false };
   const snap = snapshotRate(currency);
   if (snap) return snap;
   try {
@@ -83,7 +85,7 @@ async function midRate(currency) {
 
 async function quote({ amount, country, pay }) {
   const corridor = findCorridor(country);
-  if (!corridor) throw Object.assign(new Error("país no soportado: usa México, Guatemala, Honduras o República Dominicana"), { status: 400 });
+  if (!corridor) throw Object.assign(new Error("país no soportado: usa México, Guatemala, Honduras, República Dominicana, El Salvador, Ecuador o Colombia"), { status: 400 });
   const amt = Number(amount);
   if (!(amt > 0 && amt <= 10_000)) throw Object.assign(new Error("monto debe ser entre 1 y 10,000 dólares"), { status: 400 });
   const fx = await midRate(corridor.currency);
@@ -205,7 +207,7 @@ const server = createServer(async (req, res) => {
       return send(res, 200, { ok: true, service: "envio-claro-api", corridors: CORRIDORS.map((c) => c.currency), voice: !!env("ELEVENLABS_API_KEY"), sms: !!env("TWILIO_AUTH_TOKEN") });
     if (url.pathname === "/api/rate" && req.method === "GET") {
       const cur = String(url.searchParams.get("currency") || "").toUpperCase();
-      if (!CORRIDORS.some((c) => c.currency === cur)) return send(res, 400, { error: "currency must be MXN, GTQ, HNL or DOP" });
+      if (!CORRIDORS.some((c) => c.currency === cur)) return send(res, 400, { error: "unsupported currency" });
       return send(res, 200, await midRate(cur));
     }
     if (url.pathname === "/api/quote" && req.method === "GET")

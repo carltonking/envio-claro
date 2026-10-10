@@ -158,5 +158,125 @@
   "source_note": "World Bank RPW Q3-2025, envío en agente; tasa 61.19 vs referencia 61.87.",
   "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Dominican-Republic",
   "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Remitly",
+  "currency": "USD-EC",
+  "fee_usd": 3.99,
+  "markup_pct": 0,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025 (ago-2025): envío en línea desde cuenta bancaria, comisión US$3.99. Ecuador usa dólares: sin margen cambiario.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Ecuador",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "MoneyGram",
+  "currency": "USD-EC",
+  "fee_usd": 5.99,
+  "markup_pct": 0,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025 (ago-2025): envío en línea desde cuenta bancaria, comisión US$5.99. Sin margen cambiario (dólares).",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Ecuador",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Ria",
+  "currency": "USD-EC",
+  "fee_usd": 6.0,
+  "markup_pct": 0,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025 (ago-2025): en agente, comisión US$6.00. Sin margen cambiario (dólares).",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Ecuador",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Western Union",
+  "currency": "USD-EC",
+  "fee_usd": 8.0,
+  "markup_pct": 0,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025 (ago-2025): en agente, comisión US$8.00. Sin margen cambiario (dólares).",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Ecuador",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "MoneyGram",
+  "currency": "USD-SV",
+  "fee_usd": 1.99,
+  "markup_pct": 0,
+  "delivery": "depósito",
+  "source_note": "World Bank RPW Q3-2025 (ago-2025): en línea a cuenta bancaria, comisión US$1.99. El Salvador usa dólares: sin margen cambiario.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/El-Salvador",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Intermex",
+  "currency": "USD-SV",
+  "fee_usd": 3.99,
+  "markup_pct": 0,
+  "delivery": "depósito",
+  "source_note": "World Bank RPW Q3-2025 (ago-2025): en agente a cuenta bancaria, comisión US$3.99. Sin margen cambiario (dólares).",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/El-Salvador",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Viamericas",
+  "currency": "USD-SV",
+  "fee_usd": 5.99,
+  "markup_pct": 0,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025 (ago-2025): en agente, cobro en efectivo, comisión US$5.99. Sin margen cambiario (dólares).",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/El-Salvador",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Western Union",
+  "currency": "USD-SV",
+  "fee_usd": 5.99,
+  "markup_pct": 0,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025 (ago-2025): en línea desde cuenta bancaria, cobro en efectivo, comisión US$5.99. Sin margen cambiario (dólares).",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/El-Salvador",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Wise",
+  "currency": "COP",
+  "fee_usd": 6.79,
+  "markup_pct": 5e-05,
+  "delivery": "depósito",
+  "source_note": "World Bank RPW Q3-2025 (ago-2025), US$200 desde cuenta bancaria: costo total 3.40%, comisión US$6.79 → margen cambiario ≈0%.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Colombia",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Remitly",
+  "currency": "COP",
+  "fee_usd": 4.99,
+  "markup_pct": 0.01475,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025 (ago-2025), US$200 desde cuenta bancaria: costo total 3.97%, comisión US$4.99 → margen cambiario ≈1.48%.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Colombia",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Xoom (PayPal)",
+  "currency": "COP",
+  "fee_usd": 0.0,
+  "markup_pct": 0.0279,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025 (ago-2025), US$200 desde cuenta bancaria: comisión US$0, costo total 2.79% (todo en el tipo de cambio).",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Colombia",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Ria",
+  "currency": "COP",
+  "fee_usd": 4.0,
+  "markup_pct": 0.0227,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025 (ago-2025), US$200 en línea desde cuenta bancaria: costo total 4.27%, comisión US$4.00 → margen cambiario ≈2.27%.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Colombia",
+  "last_checked": "2026-10-10"
  }
 ]
