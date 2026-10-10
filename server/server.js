@@ -15,8 +15,10 @@ const PORT = Number(process.env.PORT || 3000);
 const env = (k) => process.env[k] || "";
 
 // ---------- helpers ----------
+// The Daytona preview proxy already echoes Access-Control-Allow-Origin; sending our own too
+// produces a duplicate header that browsers reject. Set CORS_ORIGIN=* only when running elsewhere.
 const CORS = {
-  "Access-Control-Allow-Origin": "*",
+  ...(process.env.CORS_ORIGIN ? { "Access-Control-Allow-Origin": process.env.CORS_ORIGIN } : {}),
   "Access-Control-Allow-Methods": "GET,POST,OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type,Authorization,X-Admin-Token",
 };
@@ -48,9 +50,21 @@ function normPay(input) {
 }
 
 // ---------- mid-market rate (open.er-api.com, cached) ----------
+// Daytona's free tier blocks most outbound hosts, so the deploy script uploads a daily snapshot
+// (data/rates.json, fetched from open.er-api.com). Live fetch is only tried if the snapshot is stale.
 let fxCache = { at: 0, data: null };
+function snapshotRate(currency) {
+  try {
+    const snap = JSON.parse(readFileSync(new URL("./data/rates.json", import.meta.url)));
+    const ageH = (Date.now() - Date.parse(snap.time_last_update_utc)) / 3_600_000;
+    if (snap.rates?.[currency] && ageH < 48) return { rate: snap.rates[currency], updated: snap.time_last_update_utc, source: "open.er-api.com (tasa de referencia diaria)", approx: false };
+  } catch {}
+  return null;
+}
 async function midRate(currency) {
   const corridor = CORRIDORS.find((c) => c.currency === currency);
+  const snap = snapshotRate(currency);
+  if (snap) return snap;
   try {
     if (!fxCache.data || Date.now() - fxCache.at > 30 * 60_000) {
       const r = await fetch("https://open.er-api.com/v6/latest/USD", { signal: AbortSignal.timeout(4000) });

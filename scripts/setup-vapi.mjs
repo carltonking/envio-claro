@@ -69,7 +69,7 @@ const a = state.assistantId ? await vapi("PATCH", `/assistant/${state.assistantI
 state.assistantId = a.id;
 console.log("assistant", a.id);
 
-if (!state.phoneNumberId && process.env.TWILIO_PHONE_NUMBER && process.env.TWILIO_AUTH_TOKEN) {
+if (!state.phoneNumberId && process.env.TWILIO_PHONE_NUMBER && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_ACCOUNT_SID?.startsWith("AC")) {
   const p = await vapi("POST", "/phone-number", {
     provider: "twilio", number: process.env.TWILIO_PHONE_NUMBER,
     twilioAccountSid: process.env.TWILIO_ACCOUNT_SID, twilioAuthToken: process.env.TWILIO_AUTH_TOKEN,

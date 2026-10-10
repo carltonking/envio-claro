@@ -29,6 +29,12 @@ if (!sandbox) {
   console.log("created sandbox", sandbox.id);
 }
 
+// Snapshot today's reference rates from here (the sandbox can't reach the FX API).
+const fx = await fetch("https://open.er-api.com/v6/latest/USD").then((r) => r.json());
+if (fx.result !== "success") throw new Error("FX snapshot failed");
+writeFileSync(join(ROOT, "server/data/rates.json"), JSON.stringify({ time_last_update_utc: fx.time_last_update_utc, rates: Object.fromEntries(["MXN", "GTQ", "HNL", "DOP"].map((c) => [c, fx.rates[c]])) }, null, 1));
+console.log("fx snapshot", fx.time_last_update_utc);
+
 const files = ["package.json", ...["server", "server/data", "test"].flatMap((d) => readdirSync(join(ROOT, d), { withFileTypes: true }).filter((f) => f.isFile()).map((f) => `${d}/${f.name}`))];
 for (const f of files) await sandbox.fs.uploadFile(readFileSync(join(ROOT, f)), `envio-claro/${f}`);
 await sandbox.fs.uploadFile(Buffer.from(serverEnv), "envio-claro/.env");
@@ -41,10 +47,8 @@ const t = await sandbox.process.executeCommand("cd envio-claro && node --test te
 console.log("— Daytona math audit —\n" + t.result);
 if (!/fail 0/.test(t.result)) { console.error("AUDIT FAILED — not deploying"); process.exit(1); }
 
-await sandbox.process.executeCommand("pkill -f 'node server/server.js' || true");
-await sandbox.process.createSession("api").catch(() => {});
-await sandbox.process.executeSessionCommand("api", { command: "cd envio-claro && nohup node server/server.js > server.log 2>&1 &", runAsync: true });
-await new Promise((r) => setTimeout(r, 2500));
+// Restart detached (setsid) so the server outlives the command; session-scoped processes get reaped.
+await sandbox.process.executeCommand("pkill -f '[n]ode server/server.js'; sleep 1; cd envio-claro && (setsid nohup node server/server.js > server.log 2>&1 < /dev/null &); sleep 3; cat server.log");
 
 const { url } = await sandbox.getPreviewLink(3000);
 const health = await fetch(`${url}/health`).then((r) => r.text()).catch((e) => `ERR ${e.message}`);
