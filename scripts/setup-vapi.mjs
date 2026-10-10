@@ -62,6 +62,7 @@ const assistant = {
     }],
   },
   maxDurationSeconds: 240,
+  artifactPlan: { recordingEnabled: false, videoRecordingEnabled: false, loggingEnabled: false, transcriptPlan: { enabled: false } }, // privacy: no recordings or transcripts
   endCallPhrases: ["adiós", "hasta luego"],
 };
 

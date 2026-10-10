@@ -94,6 +94,7 @@ const agent = {
     conversation: { text_only: true },
     tts: { model_id: "eleven_flash_v2_5", voice_id: process.env.ELEVENLABS_VOICE_ID || "EXAVITQu4vr4xnSDxMaL" },
   },
+  platform_settings: { privacy: { record_voice: false, retention_days: 0, delete_transcript_and_pii: true, delete_audio: true } }, // privacy: keep nothing
 };
 
 const res = state.agentId ? await el("PATCH", `/v1/convai/agents/${state.agentId}`, agent) : await el("POST", "/v1/convai/agents/create", agent);

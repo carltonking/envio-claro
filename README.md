@@ -12,14 +12,15 @@ Built at the **Latinos x AI Hackathon NYC** (Oct 10, 2026), Finance track.
 - Banxico's *Directo a México* service closes on **Nov 20, 2026**.
 
 ## How it works
+Covers **México, Guatemala, Honduras, El Salvador, República Dominicana, Ecuador and Colombia**.
+
 | Piece | Role |
 |---|---|
 | **Base44** | The app families use: page, data (Provider, Corridor, Resource, Comparison, Config), the AI Spanish summary (InvokeLLM), hosting, analytics |
 | **Daytona** | Hosts the Envío Claro API in a sandbox; every deploy runs the math test suite inside the sandbox first |
-| **ElevenLabs** | Reads the summary aloud in Spanish (`/api/speak`) and is the voice of the phone line |
-| **VAPI + Twilio** | A Spanish phone line: callers say the amount, country and payment method and hear the real cost (`/api/vapi`) |
-| **Twilio** | "Mándamelo por SMS" (`/api/sms`); phone numbers are never stored |
-| **Tavily** | Refreshes provider rates and news with sources (admin only) |
+| **ElevenLabs** | Spanish voice (`/api/speak`), Scribe speech-to-text for WhatsApp voice memos, and the ElevenLabs Agent that answers WhatsApp (0-day retention) |
+| **VAPI + Twilio** | A Spanish phone line (+1 646-212-2770): callers say the amount, country and payment method and hear the real cost (`/api/vapi`). Calls are not recorded or transcribed |
+| **Twilio** | WhatsApp (sandbox) + a Twilio Function that receives text and voice memos and forwards them to `/api/whatsapp` |
 
 The math lives in one place, `server/quote.js`:
 
@@ -36,10 +37,12 @@ npm start                         # API on :3000 (reads .env)
 node scripts/deploy-daytona.mjs   # audit inside Daytona, then deploy and print API_BASE
 ```
 
-API: `GET /api/rate?currency=MXN` · `GET /api/quote?amount=300&country=Honduras&pay=efectivo` · `POST /api/speak {text}` · `POST /api/sms {to,text}` · `POST /api/vapi` (VAPI tool webhook)
+API: `GET /api/rate?currency=MXN` · `GET /api/quote?amount=300&country=Honduras&pay=efectivo` · `GET /api/cotizar` (compact, for AI agents) · `GET|POST /api/speak` · `POST /api/vapi` (VAPI tool webhook) · `POST /api/whatsapp` (token-protected)
+
+Browser callers must send `X-Daytona-Skip-Preview-Warning: true`.
 
 ## Data and honesty
 Provider fees and markups in `server/data/providers.json` are **sourced examples**: Profeco (Sep–Oct 2026), the World Bank Remittance Prices Worldwide (Q3 2025) and provider sites. Every row carries its source URL and date. The mid-market rate is a daily reference from open.er-api.com. Envío Claro takes **no referral fees** from any provider. Educational information, not financial advice.
 
 ## Privacy
-No accounts for families. No names, phone numbers or immigration status are stored. Comparisons are logged anonymously (amount, country, payment method).
+No accounts for families; we never ask for names, SSNs or immigration status. Comparisons are logged anonymously (amount, country, payment method). Phone calls are not recorded or transcribed; the WhatsApp agent keeps 0 days of history; our WhatsApp memory lives in RAM for 30 minutes keyed by a hashed number, and `BORRAR` erases it. Twilio keeps standard message delivery logs.
