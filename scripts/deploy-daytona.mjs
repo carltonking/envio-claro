@@ -14,7 +14,7 @@ const STATE = join(ROOT, "..", ".daytona-sandbox");
 process.loadEnvFile(ENV_FILE);
 if (!process.env.DAYTONA_API_KEY) throw new Error("DAYTONA_API_KEY missing in ../.env");
 
-const SERVER_KEYS = ["ELEVENLABS_API_KEY", "ELEVENLABS_VOICE_ID", "ELEVENLABS_MODEL_ID", "TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_PHONE_NUMBER", "TAVILY_API_KEY", "ADMIN_TOKEN"];
+const SERVER_KEYS = ["ELEVENLABS_API_KEY", "ELEVENLABS_VOICE_ID", "ELEVENLABS_MODEL_ID", "TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_PHONE_NUMBER", "TAVILY_API_KEY", "ADMIN_TOKEN", "ELEVENLABS_AGENT_ID", "WHATSAPP_TOKEN"];
 const serverEnv = SERVER_KEYS.filter((k) => process.env[k]).map((k) => `${k}=${process.env[k]}`).join("\n") + "\nPORT=3000\n";
 
 const daytona = new Daytona({ apiKey: process.env.DAYTONA_API_KEY });

@@ -4,6 +4,7 @@ import { createServer } from "node:http";
 import { readFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { computeQuotes, summaryEs } from "./quote.js";
+import { askAgent, transcribe } from "./agent.js";
 
 const load = (f) => JSON.parse(readFileSync(new URL(`./data/${f}`, import.meta.url)));
 const PROVIDERS = load("providers.json");
@@ -31,7 +32,7 @@ async function readJson(req) {
   let raw = "";
   for await (const chunk of req) {
     raw += chunk;
-    if (raw.length > 100_000) throw new Error("body too large");
+    if (raw.length > 8_000_000) throw new Error("body too large"); // voice memos arrive base64-encoded
   }
   return raw ? JSON.parse(raw) : {};
 }
@@ -136,6 +137,18 @@ async function sms(to, text) {
   return { ok: true };
 }
 
+// Compact quote for AI agents (VAPI phone line, ElevenLabs WhatsApp agent): numbers only, no prose to improvise on.
+function compact(q) {
+  const c = q.rows[0];
+  return {
+    mejor: c.name, recibe_local: Math.round(c.received_local), moneda: q.currency,
+    costo_total_usd: c.total_cost_usd, escondido_usd: c.hidden_usd, comision_usd: c.fee_usd,
+    impuesto_efectivo_usd: q.cash_tax_usd, trampa_comision: q.fee_trap ? q.lowest_fee_provider : null,
+    aviso_pais: q.alert_es || null, tasa_aproximada: q.fx.approx, frase: q.summary_es,
+    todas: q.rows.map((r) => ({ servicio: r.name, recibe_local: Math.round(r.received_local), costo_total_usd: r.total_cost_usd, comision_usd: r.fee_usd, escondido_usd: r.hidden_usd })),
+  };
+}
+
 // ---------- VAPI tool webhook ----------
 async function vapiTool(body) {
   const calls = body?.message?.toolCallList || body?.message?.toolWithToolCallList?.map((t) => t.toolCall) || [];
@@ -145,20 +158,40 @@ async function vapiTool(body) {
     if (typeof args === "string") { try { args = JSON.parse(args); } catch { args = {}; } }
     let result;
     try {
-      const q = await quote({ amount: args.monto_usd ?? args.amount, country: args.pais ?? args.country, pay: args.pago ?? args.pay });
-      const c = q.rows[0];
-      result = JSON.stringify({
-        mejor: c.name, recibe_local: Math.round(c.received_local), moneda: q.currency,
-        costo_total_usd: c.total_cost_usd, escondido_usd: c.hidden_usd, comision_usd: c.fee_usd,
-        impuesto_efectivo_usd: q.cash_tax_usd, trampa_comision: q.fee_trap ? q.lowest_fee_provider : null,
-        aviso_pais: q.alert_es || null, tasa_aproximada: q.fx.approx, frase: q.summary_es,
-      });
+      result = JSON.stringify(compact(await quote({ amount: args.monto_usd ?? args.amount, country: args.pais ?? args.country, pay: args.pago ?? args.pay })));
     } catch (e) {
       result = JSON.stringify({ error: e.message });
     }
     results.push({ toolCallId: call.id, result });
   }
   return { results };
+}
+
+// ---------- WhatsApp (via the Twilio Function front door) ----------
+// Memory is kept only in RAM for 30 min, keyed by a hash of the number. Nothing is written to disk.
+const chats = new Map();
+const chatKey = (from) => createHash("sha256").update("envio-claro:" + from).digest("hex").slice(0, 16);
+async function whatsapp(req, body) {
+  if (!env("WHATSAPP_TOKEN") || req.headers["x-admin-token"] !== env("WHATSAPP_TOKEN")) throw Object.assign(new Error("forbidden"), { status: 403 });
+  const key = chatKey(String(body.from || ""));
+  const now = Date.now();
+  for (const [k, v] of chats) if (now - v.at > 30 * 60_000) chats.delete(k);
+  const chat = chats.get(key) || { at: now, turns: [] };
+
+  let text = String(body.text || "").trim().slice(0, 1000), heard = "";
+  if (body.audio_b64) {
+    heard = await transcribe(Buffer.from(body.audio_b64, "base64"), body.audio_type || "audio/ogg");
+    text = [text, heard].filter(Boolean).join(" ");
+  }
+  if (!text) return { reply: "Hola 👋 Soy Envío Claro. Escríbame o mándeme un audio: cuánto quiere mandar, a qué país y cómo va a pagar (efectivo, tarjeta o cuenta)." };
+
+  const historial = chat.turns.slice(-8).map((t) => `${t.role}: ${t.text}`).join("\n");
+  let answer;
+  try { answer = await askAgent(text, historial, { timeoutMs: 7500 }); }
+  catch (e) { console.error("agent", e.message); answer = "Perdón, tardé demasiado en responder. ¿Me lo puede mandar otra vez?"; }
+  chat.turns.push({ role: "Usuario", text }, { role: "Envío Claro", text: answer });
+  chat.at = now; chats.set(key, chat);
+  return { reply: heard ? `🎤 Escuché: «${heard}»\n\n${answer}` : answer, transcript: heard || undefined };
 }
 
 // ---------- router ----------
@@ -175,10 +208,13 @@ const server = createServer(async (req, res) => {
     }
     if (url.pathname === "/api/quote" && req.method === "GET")
       return send(res, 200, await quote({ amount: url.searchParams.get("amount"), country: url.searchParams.get("country"), pay: url.searchParams.get("pay") }));
+    if (url.pathname === "/api/cotizar" && req.method === "GET")
+      return send(res, 200, compact(await quote({ amount: url.searchParams.get("monto_usd"), country: url.searchParams.get("pais"), pay: url.searchParams.get("pago") })));
     if (url.pathname === "/api/providers" && req.method === "GET") return send(res, 200, PROVIDERS);
     if (url.pathname === "/api/resources" && req.method === "GET") return send(res, 200, RESOURCES);
     if (url.pathname === "/api/speak" && req.method === "POST") return send(res, 200, await speak((await readJson(req)).text));
     if (url.pathname === "/api/sms" && req.method === "POST") { const b = await readJson(req); return send(res, 200, await sms(b.to, b.text)); }
+    if (url.pathname === "/api/whatsapp" && req.method === "POST") return send(res, 200, await whatsapp(req, await readJson(req)));
     if (url.pathname === "/api/vapi" && req.method === "POST") return send(res, 200, await vapiTool(await readJson(req)));
     return send(res, 404, { error: "not found" });
   } catch (e) {
