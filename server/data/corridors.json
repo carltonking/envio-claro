@@ -1,0 +1,34 @@
+[
+ {
+  "country_es": "México",
+  "currency": "MXN",
+  "flag": "🇲🇽",
+  "fallback_mid_rate": 18.33,
+  "alert_es": "Directo a México (Banxico) deja de operar el 20 de noviembre de 2026.",
+  "active": true
+ },
+ {
+  "country_es": "Guatemala",
+  "currency": "GTQ",
+  "flag": "🇬🇹",
+  "fallback_mid_rate": 7.63,
+  "alert_es": "",
+  "active": true
+ },
+ {
+  "country_es": "Honduras",
+  "currency": "HNL",
+  "flag": "🇭🇳",
+  "fallback_mid_rate": 26.81,
+  "alert_es": "",
+  "active": true
+ },
+ {
+  "country_es": "República Dominicana",
+  "currency": "DOP",
+  "flag": "🇩🇴",
+  "fallback_mid_rate": 60.52,
+  "alert_es": "",
+  "active": true
+ }
+]

@@ -1,0 +1,162 @@
+[
+ {
+  "name": "Finabien",
+  "currency": "MXN",
+  "fee_usd": 2.99,
+  "markup_pct": 0.0,
+  "delivery": "depósito",
+  "source_note": "Profeco QQED: tasas del 1-oct-2026, envío US$400, tipo de cambio 18.62. El markup calculado sale negativo (-1.37% vs FIX Banxico), así que se fija en 0 como ejemplo conservador.",
+  "source_url": "https://x.com/Profeco/status/2107123674977325258",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Remitly",
+  "currency": "MXN",
+  "fee_usd": 3.99,
+  "markup_pct": 0.0338,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025, envío en línea con débito; tasa 18.17 vs referencia 18.81. Profeco 7-sep-2026 muestra comisión promocional de US$1.99.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Mexico",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "MoneyGram",
+  "currency": "MXN",
+  "fee_usd": 1.99,
+  "markup_pct": 0.0076,
+  "delivery": "depósito",
+  "source_note": "Comisión de Profeco 7-sep-2026 (US$1.99); markup de World Bank RPW Q3-2025 (18.67 vs 18.81).",
+  "source_url": "https://qqed.profeco.gob.mx/PDF/QQED_07092026.pdf",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Western Union",
+  "currency": "MXN",
+  "fee_usd": 3.99,
+  "markup_pct": 0.019,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025, en línea, cuenta bancaria a efectivo; tasa 18.44 vs referencia 18.80.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Mexico",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Western Union",
+  "currency": "GTQ",
+  "fee_usd": 8.0,
+  "markup_pct": 0.0163,
+  "delivery": "efectivo",
+  "source_note": "Tasa estándar del sitio de WU el 10-oct-2026 (7.5078 vs mid 7.6326); comisión de agente de World Bank RPW Q3-2025.",
+  "source_url": "https://www.westernunion.com/us/en/send-money-to-guatemala.html",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Remitly",
+  "currency": "GTQ",
+  "fee_usd": 3.99,
+  "markup_pct": 0.0216,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025, envío en línea con débito; tasa 7.50 vs referencia 7.67.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Guatemala",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "MoneyGram",
+  "currency": "GTQ",
+  "fee_usd": 2.9,
+  "markup_pct": 0.0081,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025, envío en línea con débito; tasa 7.60 vs referencia 7.67.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Guatemala",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Intermex",
+  "currency": "GTQ",
+  "fee_usd": 2.99,
+  "markup_pct": 0.0195,
+  "delivery": "depósito",
+  "source_note": "World Bank RPW Q3-2025, envío en línea con débito; tasa 7.52 vs referencia 7.67.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Guatemala",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Western Union",
+  "currency": "HNL",
+  "fee_usd": 8.0,
+  "markup_pct": 0.0101,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025, envío en agente; tasa 25.94 vs referencia 26.20.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Honduras",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Remitly",
+  "currency": "HNL",
+  "fee_usd": 6.49,
+  "markup_pct": 0.01,
+  "delivery": "depósito",
+  "source_note": "World Bank RPW Q3-2025, envío en línea con débito; tasa 25.94 vs referencia 26.20.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Honduras",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "MoneyGram",
+  "currency": "HNL",
+  "fee_usd": 1.99,
+  "markup_pct": 0.0101,
+  "delivery": "depósito",
+  "source_note": "World Bank RPW Q3-2025, en línea desde cuenta bancaria; tasa 25.94 vs referencia 26.20.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Honduras",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Viamericas",
+  "currency": "HNL",
+  "fee_usd": 7.99,
+  "markup_pct": 0.0,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025, envío en agente; tasa 26.19 vs referencia 26.19.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Honduras",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Western Union",
+  "currency": "DOP",
+  "fee_usd": 8.0,
+  "markup_pct": 0.0195,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025, envío en agente; tasa 60.66 vs referencia 61.87.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Dominican-Republic",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "MoneyGram",
+  "currency": "DOP",
+  "fee_usd": 5.99,
+  "markup_pct": 0.011,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025, en línea desde cuenta bancaria; tasa 61.19 vs referencia 61.87.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Dominican-Republic",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Remitly",
+  "currency": "DOP",
+  "fee_usd": 2.99,
+  "markup_pct": 0.0007,
+  "delivery": "efectivo",
+  "source_note": "Sitio de Remitly el 10-oct-2026, cobro en Caribe Express; tasa diaria 60.48 vs mid 60.52. El primer envío no tiene comisión, a tasa de bienvenida 60.99.",
+  "source_url": "https://www.remitly.com/us/en/providers-dominican-republic/send-money-to-caribe-express",
+  "last_checked": "2026-10-10"
+ },
+ {
+  "name": "Ria",
+  "currency": "DOP",
+  "fee_usd": 4.0,
+  "markup_pct": 0.011,
+  "delivery": "efectivo",
+  "source_note": "World Bank RPW Q3-2025, envío en agente; tasa 61.19 vs referencia 61.87.",
+  "source_url": "https://remittanceprices.worldbank.org/corridor/United-States/Dominican-Republic",
+  "last_checked": "2026-10-10"
+ }
+]

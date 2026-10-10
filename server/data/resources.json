@@ -1,0 +1,26 @@
+[
+ {
+  "name_es": "NYC 311 (Departamento del Consumidor, DCWP)",
+  "phone": "311",
+  "url": "https://www.nyc.gov/site/dca/index.page",
+  "kind": "estafa"
+ },
+ {
+  "name_es": "Oficina para Nuevos Americanos de NY (línea gratuita)",
+  "phone": "1-800-566-7636",
+  "url": "https://dos.ny.gov/office-new-americans",
+  "kind": "estafa"
+ },
+ {
+  "name_es": "Procuraduría General de NY (fraude a inmigrantes)",
+  "phone": "1-800-771-7755",
+  "url": "https://ag.ny.gov",
+  "kind": "estafa"
+ },
+ {
+  "name_es": "FTC: reportar fraude (en español)",
+  "phone": "",
+  "url": "https://reportefraude.ftc.gov",
+  "kind": "estafa"
+ }
+]

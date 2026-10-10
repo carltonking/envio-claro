@@ -1,0 +1,17 @@
+{
+  "name": "envio-claro",
+  "version": "0.1.0",
+  "description": "Envío Claro: what a remittance really costs, in Spanish, by web or phone.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@daytonaio/sdk": "^0.223.1"
+  }
+}
