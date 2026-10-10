@@ -197,6 +197,8 @@ async function whatsapp(req, body) {
 // ---------- router ----------
 const server = createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host}`);
+  const t0 = Date.now();
+  res.on("finish", () => { if (url.pathname !== "/health") console.log(new Date().toISOString(), req.method, url.pathname, res.statusCode, `${Date.now() - t0}ms`, req.headers.origin || ""); }); // no query strings or bodies
   try {
     if (req.method === "OPTIONS") return send(res, 204, {});
     if (url.pathname === "/" || url.pathname === "/health")
@@ -212,6 +214,8 @@ const server = createServer(async (req, res) => {
       return send(res, 200, compact(await quote({ amount: url.searchParams.get("monto_usd"), country: url.searchParams.get("pais"), pay: url.searchParams.get("pago") })));
     if (url.pathname === "/api/providers" && req.method === "GET") return send(res, 200, PROVIDERS);
     if (url.pathname === "/api/resources" && req.method === "GET") return send(res, 200, RESOURCES);
+    // GET variant so the page can do `new Audio(url).play()` inside the tap (mobile autoplay rules)
+    if (url.pathname === "/api/speak" && req.method === "GET") return send(res, 200, await speak(url.searchParams.get("text")), { "Cache-Control": "public, max-age=3600" });
     if (url.pathname === "/api/speak" && req.method === "POST") return send(res, 200, await speak((await readJson(req)).text));
     if (url.pathname === "/api/sms" && req.method === "POST") { const b = await readJson(req); return send(res, 200, await sms(b.to, b.text)); }
     if (url.pathname === "/api/whatsapp" && req.method === "POST") return send(res, 200, await whatsapp(req, await readJson(req)));
