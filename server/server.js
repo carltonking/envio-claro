@@ -47,6 +47,7 @@ function normPay(input) {
   const n = norm(input);
   if (/efect|cash|money ?order|giro|cheque/.test(n)) return "efectivo";
   if (/cuenta|banco|bank|transfer/.test(n)) return "cuenta";
+  if (/prepag|prepaid/.test(n)) return "tarjeta"; // general-use prepaid cards are exempt under the proposed §4475 regs
   return "tarjeta"; // tarjeta / débito / crédito / default
 }
 
@@ -180,12 +181,17 @@ async function whatsapp(req, body) {
   for (const [k, v] of chats) if (now - v.at > 30 * 60_000) chats.delete(k);
   const chat = chats.get(key) || { at: now, turns: [] };
 
+  if (/^\s*borrar\s*$/i.test(String(body.text || ""))) {
+    chats.delete(key);
+    return { reply: "Listo ✅ Borramos esta conversación de nuestra memoria. Envío Claro no guarda nombres, números ni estatus migratorio." };
+  }
   let text = String(body.text || "").trim().slice(0, 1000), heard = "";
   if (body.audio_b64) {
     heard = await transcribe(Buffer.from(body.audio_b64, "base64"), body.audio_type || "audio/ogg");
     text = [text, heard].filter(Boolean).join(" ");
   }
-  if (!text) return { reply: "Hola 👋 Soy Envío Claro. Escríbame o mándeme un audio: cuánto quiere mandar, a qué país y cómo va a pagar (efectivo, tarjeta o cuenta)." };
+  const isGreeting = !chat.turns.length && text.split(/\s+/).length <= 3 && /^(hola|buenas|buenos|hi|hello|empezar|inicio)\b/i.test(text);
+  if (!text || isGreeting) return { reply: "Hola 👋 Soy *Envío Claro*. Le digo cuánto cuesta *de verdad* mandar dinero a México, Guatemala, Honduras, El Salvador, República Dominicana, Ecuador o Colombia.\n\nEscríbame o mándeme un 🎤 audio: cuánto quiere mandar, a qué país y cómo va a pagar (efectivo, tarjeta o cuenta).\n\n🔒 No necesita dar su nombre, SSN ni estatus migratorio. No vendemos ni compartimos su número. Escriba *BORRAR* para borrar esta conversación." };
 
   const historial = chat.turns.slice(-8).map((t) => `${t.role}: ${t.text}`).join("\n");
   let answer;
